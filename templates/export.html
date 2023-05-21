@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Search History</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #3F96C4;
+            overflow-y: scroll;
+            max-height: 300px; /* Adjust the maximum height as needed */
+        }
+
+        .line-container {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            color: white;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.9); /* Add transparency */
+            padding: 10px; /* Add padding to create spacing between containers */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0.8; /* Adjust the opacity as needed */
+            transition: opacity 0.3s ease-in-out;
+            max-width: 600px; /* Adjust the maximum width as needed */
+            margin: 0 auto; /* Center the container horizontally */
+        }
+
+        .line-container:hover {
+            opacity: 1; /* Adjust the opacity as needed */
+        }
+
+
+        .line-container span {
+            margin-left: auto; /* Align the text to the center */
+            margin-right: auto; /* Align the text to the center */
+            text-align: center; /* Align the text to the center */
+            display: block; /* Make the text centered horizontally */
+        }
+
+        .line-container img {
+            margin-right: 50px; /* Add spacing between image and texts */
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0.8;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .line-container img:hover {
+            opacity: 1;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var preElement = document.getElementById('txt_content');
+            var lines = preElement.innerHTML.trim().split('\n');
+            var uniqueLines = Array.from(new Set(lines));
+            preElement.innerHTML = '';
+
+            var lastLine = uniqueLines[uniqueLines.length - 1];
+            var lastImageLink = lastLine.split(',')[2].trim();
+
+            document.body.style.backgroundImage = "url('" + lastImageLink + "')";
+
+            uniqueLines.forEach(function(line) {
+                var lineParts = line.split(',');
+                var firstWord = lineParts[0].trim();
+                var secondWord = lineParts[1].trim();
+                var imageLink = lineParts[2].trim();
+                var lineContainer = document.createElement('div');
+                lineContainer.classList.add('line-container');
+
+                var firstWordText = document.createElement('span');
+                firstWordText.textContent = firstWord;
+
+                var byText = document.createElement('span');
+                byText.textContent = 'by';
+
+                var secondWordText = document.createElement('span');
+                secondWordText.textContent = secondWord;
+
+                var image = document.createElement('img');
+                image.src = imageLink;
+
+                lineContainer.appendChild(firstWordText);
+                lineContainer.appendChild(byText);
+                lineContainer.appendChild(secondWordText);
+                lineContainer.appendChild(image);
+                document.body.appendChild(lineContainer);
+        });
+    });
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>User Search History</h1>
+    <div>
+        <pre id="txt_content">{{ txt_content }}</pre>
+    </div>
+</body>
+</html>
+
+

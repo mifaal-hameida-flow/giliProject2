@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="{{ url_for('send_js', path='shazam.js') }}"></script>
+    <title>Shazam like app</title>
+    <style>
+
+        .button-container {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .pulse-container {
+          position: relative;
+          top: 50%;
+          left: 40%;
+          transform: translate(-50%, -50%);
+        }
+
+        .pulse-button {
+          position: absolute;
+          top: 50%;
+          left: 40%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          background-color: rgba(88,88,88,0.5);
+          color: #F39B44;
+          font-size: 35px;
+          font-weight: bold;
+          text-align: center;
+          border: 10px rgba(88,88,88,0.5);
+          animation: pulse 2.3s linear infinite;
+        }
+
+        .pulse-button-stop {
+          position: absolute;
+          top: 50%;
+          left: 40%;
+          transform: translate(0%, 0%);
+          z-index: 2;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          background-color: #ff0000;
+          color: #F39B44;
+          font-size: 35px;
+          font-weight: bold;
+          text-align: center;
+          border: 0px solid #838180;
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(0.5);
+          }
+          50% {
+            transform: scale(0.8);
+          }
+          100% {
+            transform: scale(0.5);
+          }
+        }
+
+        .pulse-circle {
+          position: absolute;
+          top: 50%;
+          left: 40%;
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          background-color: #ff0000;
+          animation: pulse 2s linear infinite;
+        }
+
+        .pulse-circle-small {
+          animation-duration: 1.5s;
+          margin-right: 10px;
+        }
+
+        .pulse-circle-medium {
+          animation-duration: 2s;
+          margin-right: 20px;
+        }
+
+        .pulse-circle-large {
+          animation-duration: 2.5s;
+        }
+
+        .pulse-circle-stop {
+          position: absolute;
+          top: 50%;
+          left: 40%;
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          background-color: #ff0000;
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.2);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        #result-container {
+           position: relative;
+           }
+
+        #myImage {
+              position: absolute;
+              display: none;
+              top: 45%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 300px;
+              height: 300px;
+              object-fit: contain;
+              border-radius: 10px;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out;
+              z-index: 0;
+              border: none;
+              animation: fadeIn 2.5s forwards;
+            }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0; /* Start with opacity 0 */
+          }
+          to {
+            opacity: 1; /* End with opacity 1 */
+          }
+        }
+
+        .logout-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          background-color: #333;
+          color: #F39B44;
+          text-decoration: none;
+          border: none;
+          border-radius: 0.25rem;
+          font-size: 1rem;
+          font-weight: bold;
+          margin-top: 380px;
+          margin-left: 480px;
+        }
+
+        .logout-button:hover {
+          background-color: #555;
+          cursor: pointer;
+        }
+
+        .export-button {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          background-color: #333;
+          color: #F39B44;
+          text-decoration: none;
+          border: none;
+          border-radius: 0.25rem;
+          font-size: 1rem;
+          font-weight: bold;
+          margin-top: 380px;
+        }
+
+        .export-button:hover {
+          background-color: #555;
+          cursor: pointer;
+        }
+
+
+
+
+
+</style>
+</head>
+<body style="background-color:#222; font-family: Arial, sans-serif;">
+
+  <header style="background-color: black; color: #F39B44; padding: 20px;">
+    <h1 style="margin: 0; font-size: 36px; text-align: center;"><b>FIND MY TUNE</b></h1>
+  </header>
+
+  <div class="button-container">
+  <div style="margin-top: 20px; width: 50%; margin: 40px auto;">
+   <button id="listen-btn" class="pulse-button" style=background-color:rgba(88,88,88,0.5);">Listening...</button>
+  <div class="pulse-container" id="pulse-container">
+    <div class="pulse-circle pulse-circle-small" id="pulse-circle-small" style="background-color:#424242;"></div>
+    <div class="pulse-circle pulse-circle-medium" id="pulse-circle-medium" style="background-color:#3B3B3B;"></div>
+    <div class="pulse-circle pulse-circle-large" id="pulse-circle-large" style="background-color:#333333;"></div>
+  </div>
+</div>
+<div id="result" style="background-color: black; color: #F39B44; position: absolute; width: 280px; padding: 20px; margin-top: 700px; margin-right: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;">
+  <h2 style="margin-top: 0; font-size: 24px;">Results</h2>
+  <p id="result-text" style="font-size: 18px; margin-top: 10px;">No results yet</p>
+</div>
+  </div>
+  <a href="/logout" class="logout-button">Log out</a>
+  <a href="/export" class="export-button">User search history</a>
+ <img id="myImage" src="">
+    <script src="shazam.js"></script>
+
+
+</body>
+</html>

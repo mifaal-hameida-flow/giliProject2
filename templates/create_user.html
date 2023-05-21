@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+  <title>Create User</title>
+  <style>
+    body {
+      background-color: #F2F2F2;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      background-color: #FFFFFF;
+      border: 1px solid #DDDDDD;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      max-width: 400px;
+      padding: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      border: 1px solid #CCCCCC;
+      border-radius: 5px;
+      font-size: 16px;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 5px;
+      color: #FFFFFF;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 12px;
+      width: 100%;
+    }
+
+    .error-message {
+      color: #FF0000;
+      font-weight: bold;
+      margin-top: 5px;
+      animation: fade-out 2s linear forwards;
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Create User</h1>
+  <form method="post" action="{{ url_for('create_user') }}">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    {% if error_username %}
+      <p class="error-message" id="error_username">{{ error_username }}</p>
+    {% endif %}
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <label for="confirm_password">Confirm Password:</label>
+    <input type="password" id="confirm_password" name="confirm_password" required>
+    {% if error_password %}
+      <p class="error-message" id="error_password">{{ error_password }}</p>
+    {% endif %}
+    <button type="submit">Create User</button>
+  </form>
+
+  <script>
+    // Automatically fade out error messages after 1 second
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach((errorMessage) => {
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

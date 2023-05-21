@@ -1,0 +1,8 @@
+username4,$2b$12$/PTAnYuf.TzKl.sh/SRdg.hLRqRch89tINEWD0RnmwoZWMNihzSim
+myUser,$2b$12$Dyjo6Cfb.jzbdCO.o.JtAOFoMH0IWQW9yZ9A2avAi.UmgsuVVhx4K
+gili,$2b$12$JQYZF3.uBcpB8iHP.E655Oo..BEDVim4T2UdoNyXsSCypbIBtw3Uu
+yuvi,$2b$12$kOwuIRnQkwsk3XLoDCVJ7ePz965n2Xe/POWaR/bEO7xICkkX8PUqK
+erez,$2b$12$0lcRDr5gPlu9GY7MPO98y.9cun5TZPQQvV3Mb15YWNPw2BwESlXG2
+gilig,$2b$12$.72NTG7LcxQBeDx63rbKOefDA5lxoGym.0hBBypNLtHDcja73cA5a
+gilip,$2b$12$nU4VJaNjKWl0G5aKIx9Ya.yXSANEcK8GxW/J/1UyFGuZ0xMUP/Bze
+ziv,$2b$12$SRX3hwep4Pl3xP4oSIrLj.jZjBtyaNljSvtwNUKfHx3yo2DdGCWHS

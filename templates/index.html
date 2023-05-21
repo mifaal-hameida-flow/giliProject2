@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <!--
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shazam</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+        .row.content {height: 450px}
+        .sidenav {
+            padding-top: 20px;
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+        @media screen and (max-width: 767px) {
+            .row.content {height: auto;}
+        }
+    </style> -->
+    <title>Song Recognition App</title>
+</head>
+<body style="background-color: #F0F0F0; font-family: Arial, sans-serif;">
+
+  <header style="background-color: #222222; color: white; padding: 20px;">
+    <h1 style="margin: 0; font-size: 36px;"><b>Song Recognition App</b></h1>
+  </header>
+<!--
+  <div id="content" style="padding: 20px;">
+    <form>
+      <label for="file-upload" style="display: inline-block; background-color: #4CAF50; color: white; padding: 8px 16px; cursor: pointer; border-radius: 5px; font-size: 16px;">Choose a file</label>
+      <input id="file-upload" type="file" style="display: none;">
+    </form> -->
+    <div style="margin-top: 20px; width: 50%; margin: 40px auto;">
+        <button id="record-btn" style="display: inline-block; background-color: #F1811D; color: white; padding: 8px 16px; cursor: pointer; border-radius: 5px; font-size: 16px;"><b>Record</b></button>
+        <button id="stop-btn" disabled style="display: inline-block; background-color: #F1811D; color: white; padding: 8px 16px; cursor: pointer; border-radius: 5px; font-size: 16px;"><b>Stop</b></button>
+        <button id="play-btn" disabled style="display: inline-block; background-color: #F1811D; color: white; padding: 8px 16px; cursor: pointer; border-radius: 5px; font-size: 16px;"><b>Play</b></button>
+        <button id="send-btn" disabled style="display: inline-block; background-color: #F1811D; color: white; padding: 8px 16px; cursor: pointer; border-radius: 5px; font-size: 16px;"><b>Send to Server</b></button>
+        <audio id="audio" controls></audio>
+
+    <div id="result" style="background-color: white; padding: 20px; margin-top: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+      <h2 style="margin-top: 0; font-size: 24px;">Results</h2>
+      <p style="font-size: 18px; margin-top: 10px;">No results yet</p>
+    </div>
+  </div>
+
+  <script>
+    const recordBtn = document.getElementById('record-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const playBtn = document.getElementById('play-btn');
+    const sendBtn = document.getElementById('send-btn');
+    const audio = document.getElementById('audio');
+    let recordedAudio = null;
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+
+        recordBtn.addEventListener('click', () => {
+          mediaRecorder.start();
+          recordBtn.disabled = true;
+          stopBtn.disabled = false;
+        });
+
+        stopBtn.addEventListener('click', () => {
+          mediaRecorder.stop();
+          recordBtn.disabled = false;
+          stopBtn.disabled = true;
+          playBtn.disabled = false;
+          sendBtn.disabled = false;
+        });
+
+        mediaRecorder.addEventListener('dataavailable', event => {
+          recordedAudio = new Blob([event.data], { type: 'audio/mp3' });
+        });
+      })
+      .catch(error => {
+        console.error('Failed to get media device:', error);
+      });
+
+    playBtn.addEventListener('click', () => {
+      if (recordedAudio) {
+        audio.src = URL.createObjectURL(recordedAudio);
+        audio.play();
+      }
+    });
+
+    sendBtn.addEventListener('click', () => {
+      if (recordedAudio) {
+			var formData = new FormData();
+			formData.append('audio', recordedAudio);
+
+			fetch('/upload-audio', {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+            .then(data => {
+             document.getElementById('result').innerText = data.track.title + " - "+ data.track.subtitle; // output the response body as JSON
+            })
+			.catch(function(error) {
+				console.error(error);
+			});
+      }
+    });
+  </script>
+</body>
+</html>
