@@ -149,9 +149,15 @@ async def recognize(filename):
 
 
 
+# if __name__ == '__main__':
+#     loop = asyncio.get_event_loop()
+#     context = ('cert.pem', 'key.pem')
+#    # app.run(host='0.0.0.0', port=443, ssl_context=context)
+#     app.run(host='0.0.0.0', port=80)
+
+import os
+
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    context = ('cert.pem', 'key.pem')
-   # app.run(host='0.0.0.0', port=443, ssl_context=context)
-    app.run(host='0.0.0.0', port=80)
-
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
